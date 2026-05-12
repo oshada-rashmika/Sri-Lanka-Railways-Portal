@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import TopUtilityBar from "@/components/TopUtilityBar";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +26,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TopUtilityBar />
-          {children}
+          <div className="sticky top-0 z-50 w-full flex flex-col shadow-sm">
+            <TopUtilityBar />
+            <Header />
+          </div>
+          <main className="min-h-screen">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>
