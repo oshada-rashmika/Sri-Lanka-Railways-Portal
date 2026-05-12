@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import MobileNav from './MobileNav';
+import SearchBar from './SearchBar';
 
 export type NavItem = {
   name: string;
@@ -101,8 +102,12 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right: Railway Logo & Mobile Menu Toggle */}
+          {/* Right: Search, Railway Logo & Mobile Menu Toggle */}
           <div className="flex items-center gap-4 sm:gap-6">
+            <div className="hidden lg:block">
+              <SearchBar />
+            </div>
+            
             <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 drop-shadow-lg">
               <Image 
                 src="/assets/Sri Lanka Railway.png" 
