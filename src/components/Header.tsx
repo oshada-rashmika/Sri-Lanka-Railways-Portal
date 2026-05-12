@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import MobileNav from './MobileNav';
 
-type NavItem = {
+export type NavItem = {
   name: string;
   href: string;
   dropdown?: { name: string; href: string; }[];
@@ -36,8 +36,6 @@ const navigation: NavItem[] = [
 ];
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
     <header className="w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,69 +113,12 @@ export default function Header() {
               />
             </div>
             
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden flex items-center">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center p-2.5 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-expanded="false"
-              >
-                <span className="sr-only">Open main menu</span>
-                {!mobileMenuOpen ? (
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                ) : (
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                )}
-              </button>
-            </div>
+            {/* Mobile Menu Button - Replaced with MobileNav */}
+            <MobileNav navigation={navigation} />
           </div>
 
         </div>
       </div>
-
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl absolute w-full left-0">
-          <div className="px-4 pt-2 pb-4 space-y-1 sm:px-6">
-            {navigation.map((item) => (
-              <div key={item.name} className="flex flex-col">
-                {item.dropdown ? (
-                  <div className="flex flex-col space-y-1">
-                    <div className="block px-4 py-3 rounded-lg text-base font-semibold text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-800/30">
-                      {item.name}
-                    </div>
-                    <div className="pl-4 pr-2 py-1 space-y-1 border-l-2 border-slate-100 dark:border-slate-800 ml-4">
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          href={subItem.href}
-                          className="block px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {subItem.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className="block px-4 py-3 rounded-lg text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </header>
   );
 }
