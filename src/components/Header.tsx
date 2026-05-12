@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import MobileNav from './MobileNav';
 import SearchBar from './SearchBar';
+import TopUtilityBar from './TopUtilityBar';
 
 export type NavItem = {
   name: string;
@@ -37,14 +39,43 @@ const navigation: NavItem[] = [
 ];
 
 export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    
+    // Set initial state
+    handleScroll();
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24">
-          
-          {/* Left: Emblem & Title */}
-          <div className="flex items-center gap-4">
-            <div className="relative w-12 h-16 sm:w-14 sm:h-20 flex-shrink-0 drop-shadow-md">
+    <header className="sticky top-0 w-full z-50 transition-all duration-500 ease-in-out">
+      <div className={`grid transition-[grid-template-rows] duration-500 ease-in-out ${isScrolled ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'}`}>
+        <div className="overflow-hidden bg-slate-900 dark:bg-slate-950">
+          <div className={`transition-opacity duration-500 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
+            <TopUtilityBar />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center w-full">
+        <div 
+          className={`transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] transform ${
+            isScrolled 
+              ? 'w-[95%] max-w-7xl mx-auto translate-y-2 rounded-full border border-white/10 shadow-2xl backdrop-blur-lg bg-slate-900/80 dark:bg-slate-950/80 px-4 sm:px-6' 
+              : 'w-full translate-y-0 bg-slate-900 dark:bg-slate-950 border-transparent px-4 sm:px-6 lg:px-8'
+          }`}
+        >
+          <div className={`flex justify-between items-center transition-all duration-500 ${isScrolled ? 'h-16' : 'h-24'}`}>
+            
+            {/* Left: Emblem & Title */}
+            <div className="flex items-center gap-4">
+              <div className={`relative flex-shrink-0 drop-shadow-md transition-all duration-500 ${isScrolled ? 'w-10 h-14 sm:w-11 sm:h-16' : 'w-12 h-16 sm:w-14 sm:h-20'}`}>
               <Image 
                 src="/assets/sllogo.png" 
                 alt="Sri Lanka Emblem" 
@@ -55,10 +86,10 @@ export default function Header() {
             </div>
             
             <div className="hidden sm:flex flex-col justify-center">
-              <h1 className="text-xl sm:text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 tracking-tight">
+              <h1 className={`font-extrabold text-white tracking-tight transition-all duration-500 ${isScrolled ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'}`}>
                 Sri Lanka Railways
               </h1>
-              <p className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 tracking-wider uppercase">
+              <p className={`font-semibold text-blue-400 tracking-wider uppercase transition-all duration-500 ${isScrolled ? 'text-[10px] sm:text-xs' : 'text-xs sm:text-sm'}`}>
                 Department of Railways
               </p>
             </div>
@@ -70,9 +101,9 @@ export default function Header() {
               <div key={item.name} className="relative group">
                 {item.dropdown ? (
                   <>
-                    <button className="flex items-center gap-1 px-3 py-2 rounded-full text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 focus:outline-none">
+                    <button className={`flex items-center gap-1 px-3 py-2 rounded-full text-sm font-bold transition-all duration-200 focus:outline-none ${isScrolled ? 'text-slate-300 hover:text-white hover:bg-slate-800' : 'text-slate-200 hover:text-white hover:bg-white/10'}`}>
                       {item.name}
-                      <svg className="w-4 h-4 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
@@ -93,7 +124,7 @@ export default function Header() {
                 ) : (
                   <Link 
                     href={item.href}
-                    className="flex items-center px-3 py-2 rounded-full text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200"
+                    className={`flex items-center px-3 py-2 rounded-full text-sm font-bold transition-all duration-200 ${isScrolled ? 'text-slate-300 hover:text-white hover:bg-slate-800' : 'text-slate-200 hover:text-white hover:bg-white/10'}`}
                   >
                     {item.name}
                   </Link>
@@ -108,7 +139,7 @@ export default function Header() {
               <SearchBar />
             </div>
             
-            <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 drop-shadow-lg">
+            <div className={`relative flex-shrink-0 drop-shadow-lg transition-all duration-500 ${isScrolled ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-16 sm:h-16'}`}>
               <Image 
                 src="/assets/Sri Lanka Railway.png" 
                 alt="Sri Lanka Railway Logo" 
@@ -124,6 +155,7 @@ export default function Header() {
 
         </div>
       </div>
+    </div>
     </header>
   );
 }

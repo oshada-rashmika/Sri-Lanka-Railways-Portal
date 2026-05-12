@@ -42,7 +42,7 @@ export default function HeroCarousel() {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative w-full h-[60vh] min-h-[400px] overflow-hidden" ref={emblaRef}>
+    <div className="relative w-full h-[65vh] min-h-[400px] overflow-hidden" ref={emblaRef}>
       <div className="flex h-full Touch-pan-y">
         {slides.map((slide) => (
           <div className="relative flex-none w-full h-full min-w-0 bg-slate-800" key={slide.id}>

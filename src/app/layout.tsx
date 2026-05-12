@@ -27,10 +27,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="sticky top-0 z-50 w-full flex flex-col shadow-sm">
-            <TopUtilityBar />
-            <Header />
-          </div>
+          <Header />
           <main className="min-h-screen">
             {children}
           </main>
