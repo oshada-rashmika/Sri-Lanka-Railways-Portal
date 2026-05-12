@@ -8,21 +8,15 @@ import Image from 'next/image';
 const slides = [
   {
     id: 1,
-    title: "Discover Sri Lanka by Rail",
-    description: "Experience the most scenic train journeys in the world.",
-    imageUrl: "/assets/hero-1.jpg", // Replace with your actual image paths
+    title: "Ella Odyssey",
+    description: "Experience the lush green hills and misty mountains on the most scenic train journey.",
+    imageUrl: "/assets/ella.jpg",
   },
   {
     id: 2,
-    title: "Journey Through the Hills",
-    description: "Travel through tea plantations and misty mountains.",
-    imageUrl: "/assets/hero-2.jpg",
-  },
-  {
-    id: 3,
-    title: "Coastal Train Rides",
-    description: "Enjoy breathtaking views of the Indian Ocean along the coast.",
-    imageUrl: "/assets/hero-3.jpg",
+    title: "Seaside Adventure",
+    description: "Enjoy breathtaking views of the Indian Ocean along the picturesque coastal line.",
+    imageUrl: "/assets/seaside.jpg",
   },
 ];
 
@@ -51,14 +45,22 @@ export default function HeroCarousel() {
     <div className="relative w-full h-[60vh] min-h-[400px] overflow-hidden" ref={emblaRef}>
       <div className="flex h-full Touch-pan-y">
         {slides.map((slide) => (
-          <div className="relative flex-none w-full h-full min-w-0" key={slide.id}>
-            {/* Fallback styling in case images are missing */}
-            <div className="absolute inset-0 bg-slate-800" /> 
+          <div className="relative flex-none w-full h-full min-w-0 bg-slate-800" key={slide.id}>
+            <Image 
+              src={slide.imageUrl} 
+              alt={slide.title}
+              fill
+              className="object-cover"
+              priority={slide.id === 1}
+            />
             
-            <div className="absolute inset-0 flex items-center justify-center z-10 px-12">
-              <div className="text-center text-white bg-black/40 p-8 rounded-xl backdrop-blur-sm">
-                <h1 className="text-4xl md:text-6xl font-bold mb-4">{slide.title}</h1>
-                <p className="text-lg md:text-xl">{slide.description}</p>
+            {/* Modern gradient fade for readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent z-10" /> 
+            
+            <div className="absolute inset-0 flex items-end justify-start z-20 pb-16 px-12 md:px-24">
+              <div className="text-left text-white max-w-2xl">
+                <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-md">{slide.title}</h1>
+                <p className="text-lg md:text-xl drop-shadow-sm text-gray-100">{slide.description}</p>
               </div>
             </div>
           </div>
